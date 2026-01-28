@@ -14,7 +14,7 @@
         }
         
         /* SCREENS */
-        #menu-screen, #shop-screen, #lab-screen, #upgrade-screen {
+        #menu-screen, #shop-screen, #lab-screen, #upgrade-screen, #archive-screen {
             background: rgba(2, 2, 2, 0.96); pointer-events: auto;
             align-items: center; justify-content: center; z-index: 50;
             overflow-y: auto;
@@ -31,11 +31,11 @@
             min-width: 250px; text-transform: uppercase;
         }
         .btn:hover { background: #4caf50; color: #000; box-shadow: 0 0 25px #4caf50; transform: scale(1.05); }
-        .btn-blue { border-color: #00e5ff; }
-        .btn-blue:hover { background: #00e5ff; box-shadow: 0 0 25px #00e5ff; }
-        .btn-purple { border-color: #d500f9; }
-        .btn-purple:hover { background: #d500f9; box-shadow: 0 0 25px #d500f9; }
         
+        .btn-blue { border-color: #00e5ff; } .btn-blue:hover { background: #00e5ff; box-shadow: 0 0 25px #00e5ff; }
+        .btn-purple { border-color: #d500f9; } .btn-purple:hover { background: #d500f9; box-shadow: 0 0 25px #d500f9; }
+        .btn-orange { border-color: #ff9100; } .btn-orange:hover { background: #ff9100; box-shadow: 0 0 25px #ff9100; }
+
         .btn-fixed-close {
             position: fixed; top: 20px; right: 20px;
             width: 50px; height: 50px; border-radius: 50%;
@@ -63,65 +63,35 @@
         .item-card.owned { border-color: #4caf50; }
         .item-card.selected { background: linear-gradient(45deg, #1b5e20, #000); border-color: #69f0ae; box-shadow: 0 0 15px #4caf50; }
 
-        #loadout-display {
-            display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; max-width: 900px;
-        }
+        #loadout-display { display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; max-width: 900px; }
         .canister {
             width: 90px; height: 110px; border: 2px dashed #444; border-radius: 10px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: #111; color: #666; font-size: 11px; text-align: center;
-            transition: 0.3s;
+            background: #111; color: #666; font-size: 11px; text-align: center; transition: 0.3s;
         }
         .canister.filled { border-style: solid; border-color: #00e5ff; color: #fff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
 
-        .evo-section {
-            border: 1px solid #d500f9; padding: 20px; margin-bottom: 20px; border-radius: 8px;
-            background: rgba(20, 0, 20, 0.5); text-align: center; width: 60%;
-        }
-
-        .upgrade-row {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #111; padding: 15px; margin-bottom: 10px; border: 1px solid #333;
-            width: 600px;
-        }
-        .pips { display: flex; gap: 5px; }
-        .pip { width: 15px; height: 15px; background: #333; border: 1px solid #555; }
+        .evo-section { border: 1px solid #d500f9; padding: 20px; margin-bottom: 20px; border-radius: 8px; background: rgba(20, 0, 20, 0.5); text-align: center; width: 60%; }
+        .upgrade-row { display: flex; align-items: center; justify-content: space-between; background: #111; padding: 15px; margin-bottom: 10px; border: 1px solid #333; width: 600px; }
+        .pips { display: flex; gap: 5px; } .pip { width: 15px; height: 15px; background: #333; border: 1px solid #555; }
         .pip.active { background: #00e5ff; box-shadow: 0 0 5px #00e5ff; }
 
-        #hud-container {
-            position: absolute; bottom: 20px; left: 20px; right: 20px;
-            display: flex; justify-content: space-between; pointer-events: none;
-            z-index: 10;
-        }
-        .panel {
-            background: rgba(10, 10, 10, 0.85); padding: 15px; border-radius: 4px;
-            border: 1px solid #333; color: white; box-shadow: 0 0 15px rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-        }
+        #hud-container { position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; pointer-events: none; z-index: 10; }
+        .panel { background: rgba(10, 10, 10, 0.85); padding: 15px; border-radius: 4px; border: 1px solid #333; color: white; box-shadow: 0 0 15px rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .stat-row { display: flex; justify-content: space-between; width: 240px; margin-bottom: 5px; font-size: 14px; }
         .stat-val { font-weight: bold; color: #4caf50; }
         
-        #interactions {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; pointer-events: none; z-index: 10;
-        }
-        .prompt {
-            background: rgba(0,0,0,0.8); color: white; padding: 12px 25px;
-            border-radius: 30px; font-size: 16px; border: 1px solid #4caf50;
-            margin-bottom: 10px; display: none; box-shadow: 0 0 15px #4caf50;
-        }
+        #interactions { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; }
+        .prompt { background: rgba(0,0,0,0.8); color: white; padding: 12px 25px; border-radius: 30px; font-size: 16px; border: 1px solid #4caf50; margin-bottom: 10px; display: none; box-shadow: 0 0 15px #4caf50; }
         .key { color: #fdd835; font-weight: bold; }
 
-        #controls-help {
-            position: absolute; top: 20px; right: 20px;
-            text-align: right; color: rgba(255,255,255,0.4); font-size: 12px; pointer-events: none;
-        }
+        #controls-help { position: absolute; top: 20px; right: 20px; text-align: right; color: rgba(255,255,255,0.4); font-size: 12px; pointer-events: none; }
+        #game-over-screen { background: rgba(0,0,0,0.9); display: none; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 20; pointer-events: auto; }
 
-        #game-over-screen {
-            background: rgba(0,0,0,0.9); display: none;
-            flex-direction: column; align-items: center; justify-content: center;
-            color: white; z-index: 20; pointer-events: auto;
-        }
+        /* ARCHIVE SPECIFIC */
+        #archive-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; max-width: 800px; }
+        .skin-toggle { background: #222; border: 1px solid #555; color: #888; padding: 8px 15px; cursor: pointer; }
+        .skin-toggle.active { background: #00e5ff; color: #000; border-color: #fff; box-shadow: 0 0 15px #00e5ff; }
     </style>
 </head>
 <body>
@@ -134,6 +104,15 @@
         <button class="btn btn-purple" onclick="openUpgrades()">EVO UPGRADES</button>
         <button class="btn btn-blue" onclick="openLab()">MUTATION LAB</button>
         <button class="btn" onclick="openShop()">SKIN ARMORY</button>
+        <button class="btn btn-orange" onclick="openArchive()">SPECIES ARCHIVE</button>
+    </div>
+
+    <div id="archive-screen" class="ui-layer" style="display: none;">
+        <button class="btn-fixed-close" onclick="closeArchive()">✕</button>
+        <h1 style="color:#ff9100; text-shadow: 0 0 30px #ff9100; margin-top: 20px; font-size: 50px;">VISUAL DATABASE</h1>
+        <p style="color:#aaa;">Select a skin to preview evolution stages</p>
+        <div id="archive-controls"></div>
+        <canvas id="archiveCanvas" width="1000" height="400" style="border: 1px solid #333; background: #050505;"></canvas>
     </div>
 
     <div id="upgrade-screen" class="ui-layer" style="display: none;">
@@ -227,12 +206,13 @@
         startEvo: { name: "GENETIC MEMORY", max: 2, cost: [5000, 15000], desc: "Unlock Starting at Higher Tiers" }
     };
 
+    // UPDATED SKINS WITH TEXTURE DEFINITIONS
     const SKINS = {
-        DEFAULT: { name: "Bio-Standard", cost: 0, color: '#4caf50', type: 'solid' },
-        NEON:    { name: "Cyber Neon", cost: 200, color: '#00e5ff', type: 'neon' },
-        CRIMSON: { name: "Blood Rage", cost: 500, color: '#d50000', type: 'blood' },
-        GOLD:    { name: "Royal Gold", cost: 1000, color: '#ffd700', type: 'gold' },
-        VOID:    { name: "Void Walker", cost: 2000, color: '#6a1b9a', type: 'void' },
+        DEFAULT: { name: "Bio-Standard", cost: 0, color: '#4caf50', type: 'organic' },
+        NEON:    { name: "Cyber Neon", cost: 200, color: '#00e5ff', type: 'digital' },
+        MAGMA:   { name: "Magma Crust", cost: 500, color: '#ff3d00', type: 'magma' }, 
+        GOLD:    { name: "Royal Gold", cost: 1000, color: '#ffd700', type: 'metallic' },
+        VOID:    { name: "Void Walker", cost: 2000, color: '#6a1b9a', type: 'cosmic' },
         GLITCH:  { name: "Sys.Error", cost: 5000, color: '#fff', type: 'glitch' }
     };
 
@@ -321,12 +301,12 @@
             this.life = 40; this.vy = -1.5;
         }
         update() { this.y += this.vy; this.life--; }
-        draw() {
-            ctx.globalAlpha = Math.max(0, this.life / 40);
-            ctx.fillStyle = this.color; ctx.font = "bold 16px monospace";
-            ctx.shadowColor = 'black'; ctx.shadowBlur = 4;
-            ctx.fillText(this.text, this.x, this.y);
-            ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+        draw(context) {
+            context.globalAlpha = Math.max(0, this.life / 40);
+            context.fillStyle = this.color; context.font = "bold 16px monospace";
+            context.shadowColor = 'black'; context.shadowBlur = 4;
+            context.fillText(this.text, this.x, this.y);
+            context.shadowBlur = 0; context.globalAlpha = 1;
         }
     }
 
@@ -341,34 +321,27 @@
             this.x += this.vx; this.y += this.vy;
             this.life--; this.size *= 0.95;
         }
-        draw() {
-            ctx.globalAlpha = this.life / this.maxLife;
-            ctx.fillStyle = this.color;
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
-            ctx.globalAlpha = 1;
+        draw(context) {
+            context.globalAlpha = this.life / this.maxLife;
+            context.fillStyle = this.color;
+            context.beginPath(); context.arc(this.x, this.y, this.size, 0, Math.PI*2); context.fill();
+            context.globalAlpha = 1;
         }
     }
     
-    // NEW VISUAL EFFECT FOR STINGER
+    // VISUAL EFFECT FOR STINGER
     class SpikeThrust {
         constructor(x, y, angle) {
             this.x = x; this.y = y; this.angle = angle; this.life = 10;
         }
         update() { this.life--; }
-        draw() {
-            ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle);
-            ctx.globalAlpha = this.life / 10;
-            ctx.fillStyle = '#fff'; 
-            ctx.shadowColor = '#e65100'; ctx.shadowBlur = 20;
-            // Draw a sharp jagged spike
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(60, -10); // Tip
-            ctx.lineTo(40, 0);
-            ctx.lineTo(60, 10);
-            ctx.closePath();
-            ctx.fill();
-            ctx.restore(); ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+        draw(context) {
+            context.save(); context.translate(this.x, this.y); context.rotate(this.angle);
+            context.globalAlpha = this.life / 10;
+            context.fillStyle = '#fff'; 
+            context.shadowColor = '#e65100'; context.shadowBlur = 20;
+            context.beginPath(); context.moveTo(0, 0); context.lineTo(60, -10); context.lineTo(40, 0); context.lineTo(60, 10); context.closePath(); context.fill();
+            context.restore(); context.globalAlpha = 1; context.shadowBlur = 0;
         }
     }
 
@@ -413,6 +386,9 @@
             this.lastZapTime = 0;
             this.animOffset = Math.random() * 100;
             this.slowTimer = 0;
+            
+            // For Glitch effect
+            this.glitchOffset = {x:0, y:0};
         }
 
         applyPassives() {
@@ -462,7 +438,6 @@
                     }
                 });
 
-                // Visual Trigger for Stinger Hit
                 if(hitAnyone && Math.random() < 0.2) {
                     STATE.effects.push(new SpikeThrust(this.x, this.y, this.angle));
                 }
@@ -527,47 +502,48 @@
             if (this.hp <= 0) handleDeath(this, source);
         }
 
-        draw() {
+        draw(context) {
             if (this.dead) return;
             
-            // COLOR LOGIC
-            let baseColor, glowColor;
+            let baseColor, glowColor, skinType;
+            
             if (this.team === 'player') {
                 const skin = SKINS[equippedSkin];
                 baseColor = skin.color;
-                glowColor = skin.type === 'neon' ? skin.color : null;
+                skinType = skin.type;
+                glowColor = skinType === 'digital' ? skin.color : null;
                 
-                // Skin effects
-                if (skin.type === 'gold') baseColor = '#ffd700'; 
-                if (skin.type === 'void') { baseColor = '#222'; glowColor = '#6a1b9a'; }
+                if (skinType === 'cosmic') { baseColor = '#1a0033'; glowColor = '#9c27b0'; }
+                if (skinType === 'magma') { baseColor = '#220a0a'; glowColor = '#ff3d00'; }
+                if (skinType === 'glitch') {
+                    if(Math.random() < 0.1) {
+                        this.glitchOffset.x = (Math.random()-0.5)*10;
+                        this.glitchOffset.y = (Math.random()-0.5)*10;
+                    } else { this.glitchOffset.x = 0; this.glitchOffset.y = 0; }
+                }
             } else {
-                baseColor = this.downed ? '#444' : '#d32f2f'; // Enemy Red
+                baseColor = this.downed ? '#444' : '#d32f2f';
+                skinType = 'enemy';
                 glowColor = this.downed ? null : '#ff0000';
             }
 
-            // Mutation Glow
-            const hasMutation = this.mutations.some(m => m !== 'NONE');
-            if (hasMutation && !this.downed) {
-                const mType = MUTATIONS[this.mutations.find(m => m !== 'NONE') || 'NONE'];
-                if(!glowColor) glowColor = mType.color;
-            }
-
-            // Apply Visuals
-            if(this.stats.stealth) ctx.globalAlpha = 0.3;
-            if(this.slowTimer > 0) { ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 10; baseColor = '#b2ebf2'; }
+            if(this.stats.stealth) context.globalAlpha = 0.3;
+            if(this.slowTimer > 0) { context.shadowColor = '#00e5ff'; context.shadowBlur = 10; baseColor = '#b2ebf2'; }
             
-            drawCreatureBody(this, baseColor, glowColor);
+            context.save();
+            if(skinType === 'glitch') context.translate(this.glitchOffset.x, this.glitchOffset.y);
+            drawCreatureBody(context, this, baseColor, glowColor, skinType);
+            context.restore();
 
-            ctx.shadowBlur = 0; ctx.globalAlpha = 1.0;
-            ctx.setTransform(1,0,0,1,0,0); 
+            context.shadowBlur = 0; context.globalAlpha = 1.0;
+            context.setTransform(1,0,0,1,0,0); 
 
-            // Health Bar
-            if (!this.downed) {
+            if (!this.downed && context === ctx) {
                 const barW = this.size * 1.5;
                 const barY = this.y - this.size - 40; 
-                ctx.fillStyle = '#000'; ctx.fillRect(this.x - barW/2, barY, barW, 6);
-                ctx.fillStyle = (this.stats.regen && this.hp < this.maxHp) ? '#ff4081' : (this.team === 'player' ? '#4caf50' : '#d32f2f');
-                ctx.fillRect(this.x - barW/2 + 1, barY + 1, (barW-2) * (this.hp / this.maxHp), 4);
+                context.fillStyle = '#000'; context.fillRect(this.x - barW/2, barY, barW, 6);
+                context.fillStyle = (this.stats.regen && this.hp < this.maxHp) ? '#ff4081' : (this.team === 'player' ? '#4caf50' : '#d32f2f');
+                context.fillRect(this.x - barW/2 + 1, barY + 1, (barW-2) * (this.hp / this.maxHp), 4);
             }
         }
     }
@@ -639,15 +615,14 @@
         updateProjectiles();
         updateParticles();
 
-        STATE.particles.forEach(p => p.draw());
-        STATE.effects.forEach(e => e.draw());
-        STATE.texts.forEach(t => t.draw());
+        STATE.particles.forEach(p => p.draw(ctx));
+        STATE.effects.forEach(e => e.draw(ctx));
+        STATE.texts.forEach(t => t.draw(ctx));
         
-        STATE.enemies.forEach(e => e.draw());
+        STATE.enemies.forEach(e => e.draw(ctx));
         STATE.squad.forEach((s, i) => {
-            s.draw();
+            s.draw(ctx);
             if (i === STATE.playerIndex) {
-                // Pulsing selection circle
                 const pulse = Math.sin(Date.now() / 150) * 2;
                 ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]);
                 ctx.beginPath(); ctx.arc(s.x, s.y, s.size + 25 + pulse, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
@@ -657,6 +632,43 @@
         updateHUD();
         requestAnimationFrame(loop);
     }
+    
+    function updateHUD() {
+        if (GAME_STATE !== 'PLAYING') return;
+
+        document.getElementById('bio-val').innerText = Math.floor(STATE.biomass);
+        document.getElementById('coin-val').innerText = playerCoins + STATE.sessionCoins;
+        document.getElementById('squad-val').innerText = STATE.squad.length + "/" + MAX_SQUAD;
+
+        const player = STATE.squad[STATE.playerIndex];
+        if (player) {
+            let form = "Larva";
+            if(player.stage===2) form="Worker";
+            if(player.stage===3) form="Hunter";
+            if(player.stage===4) form="Titan";
+            if(player.stage===5) form="Queen";
+            document.getElementById('form-val').innerText = form;
+
+            const mKey = player.mutations.find(m => m !== 'NONE') || 'NONE';
+            const mData = MUTATIONS[mKey];
+            const mEl = document.getElementById('mutation-val');
+            mEl.innerText = mData.name;
+            mEl.style.color = mData.color;
+            document.getElementById('mutation-desc').innerText = mData.desc;
+
+            const cost = player.stage * 100;
+            const canEvo = player.stage < 5 && STATE.biomass >= cost;
+            document.getElementById('evo-ready').style.display = canEvo ? 'block' : 'none';
+        }
+
+        const recruitPrompt = document.getElementById('recruit-prompt');
+        let canRecruit = false;
+        if(player) {
+            const nearDowned = STATE.enemies.find(en => en.downed && Math.hypot(en.x - player.x, en.y - player.y) < 60);
+            if(nearDowned) canRecruit = true;
+        }
+        recruitPrompt.style.display = canRecruit ? 'block' : 'none';
+    }
 
     function spawnEnemy(difficulty) {
         const r = Math.random();
@@ -664,7 +676,7 @@
         if (difficulty > 3000 && r > 0.6) stage = 2;
         if (difficulty > 10000 && r > 0.85) stage = 3;
         if (difficulty > 25000 && r > 0.95) stage = 4;
-        if (difficulty > 50000 && r > 0.98) stage = 5; // Boss Spawn
+        if (difficulty > 50000 && r > 0.98) stage = 5; 
 
         let mutationCount = 0;
         if (Math.random() < (difficulty / 5000)) mutationCount = 1;
@@ -847,192 +859,311 @@
         return target;
     }
 
-    // --- DRAWING: THE NEW "COOL" VISUALS ---
-    function drawCreatureBody(unit, color, glowColor) {
-        ctx.save();
-        ctx.translate(unit.x, unit.y);
-        ctx.rotate(unit.angle);
+    // --- DRAWING: NEW TEXTURE SYSTEM ---
+    function applySkinTexture(c, unit, type, color) {
+        c.save();
+        c.clip(); // Mask texture to body shape
+        const time = Date.now() / 1000;
 
-        // -- 1. BASE PROPERTIES --
-        if (glowColor) {
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = glowColor;
+        if (type === 'digital') { // NEON
+            c.strokeStyle = 'white'; c.lineWidth = 2; c.globalAlpha = 0.5;
+            const gridSize = 10;
+            c.beginPath();
+            for(let i=-50; i<50; i+=gridSize) {
+                c.moveTo(i, -50); c.lineTo(i, 50);
+                c.moveTo(-50, i); c.lineTo(50, i);
+            }
+            c.stroke();
+        } 
+        else if (type === 'magma') { // MAGMA (Replaces Blood Rage)
+            c.strokeStyle = '#ff3d00'; c.lineWidth = 3; 
+            c.shadowColor = '#ff3d00'; c.shadowBlur = 10;
+            c.beginPath();
+            // Cracks
+            for(let i=0; i<5; i++) {
+                c.moveTo(Math.sin(time+i)*20, Math.cos(time+i)*20);
+                c.lineTo(Math.sin(time+i+1)*30, Math.cos(time+i+1)*30);
+            }
+            c.stroke();
+            // Glowing Core
+            const grad = c.createRadialGradient(0, 0, 0, 0, 0, unit.size);
+            grad.addColorStop(0, '#ff9100');
+            grad.addColorStop(0.5, '#ff3d00');
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            c.fillStyle = grad; c.globalAlpha = 0.4 + (Math.sin(time*5)*0.2);
+            c.fillRect(-unit.size, -unit.size, unit.size*2, unit.size*2);
         }
-        ctx.fillStyle = color;
-        ctx.strokeStyle = '#111';
-        ctx.lineWidth = 1;
+        else if (type === 'metallic') { // GOLD
+            const grad = c.createLinearGradient(-unit.size, -unit.size, unit.size, unit.size);
+            grad.addColorStop(0, '#ffd700');
+            grad.addColorStop(0.5, '#fff');
+            grad.addColorStop(1, '#ff8f00');
+            c.fillStyle = grad; c.globalAlpha = 0.3;
+            c.fillRect(-50, -50, 100, 100);
+            // Shine line
+            c.beginPath(); c.strokeStyle = 'white'; c.lineWidth=5; c.globalAlpha=0.6;
+            const slide = (Date.now() % 2000) / 2000 * 100 - 50;
+            c.moveTo(slide, -50); c.lineTo(slide+20, 50); c.stroke();
+        }
+        else if (type === 'cosmic') { // VOID
+            c.fillStyle = 'white';
+            for(let i=0; i<10; i++) {
+                let px = Math.sin(time + i*134) * (unit.size*0.8);
+                let py = Math.cos(time + i*231) * (unit.size*0.8);
+                c.beginPath(); c.arc(px, py, 1.5, 0, Math.PI*2); c.fill();
+            }
+        }
+        else if (type === 'organic') { // DEFAULT / ENEMY
+            c.fillStyle = 'rgba(0,0,0,0.2)';
+            for(let i=0; i<6; i++) {
+                c.beginPath(); c.arc(Math.sin(i)*unit.size/2, Math.cos(i)*unit.size/2, unit.size/4, 0, Math.PI*2); c.fill();
+            }
+        }
+        
+        c.restore();
+    }
+
+    function drawCreatureBody(c, unit, color, glowColor, skinType) {
+        c.save();
+        c.translate(unit.x, unit.y);
+        c.rotate(unit.angle);
+
+        if (glowColor) { c.shadowBlur = 15; c.shadowColor = glowColor; }
+        c.fillStyle = color; c.strokeStyle = '#050505'; c.lineWidth = 1.5;
 
         const time = Date.now() / 150;
 
-        // -- 2. MUTATIONS (UNDER LAYER) --
-        // Wings
-        if (unit.stats.speed > 1.6 && !unit.stats.sniper) {
-            ctx.save();
-            ctx.fillStyle = 'rgba(200, 240, 255, 0.4)';
-            ctx.translate(-5, 0);
-            const wingFlap = Math.sin(Date.now()/50) * 10;
-            // Left Wing
-            ctx.beginPath(); ctx.ellipse(0, -15, 20, 8, Math.PI/-4 + (wingFlap*0.02), 0, Math.PI*2); ctx.fill();
-            // Right Wing
-            ctx.beginPath(); ctx.ellipse(0, 15, 20, 8, Math.PI/4 - (wingFlap*0.02), 0, Math.PI*2); ctx.fill();
-            ctx.restore();
-        }
-
-        // -- 3. BODY SHAPE BY STAGE --
-        
-        // --- STAGE 1: LARVA (Worm-like, segmented) ---
+        // --- STAGE 1: LARVA (Unchanged) ---
         if (unit.stage === 1) {
+            c.beginPath();
             const segs = 3;
-            for(let i=segs; i>=0; i--) {
+            c.arc(0, 0, unit.size, 0, Math.PI*2); 
+            for(let i=segs; i>=1; i--) {
                 const wiggle = Math.sin(time + i) * 3;
-                const size = unit.size * (1 - (i*0.2));
-                const offset = i * -8;
-                ctx.beginPath();
-                ctx.arc(offset, wiggle, size, 0, Math.PI*2);
-                ctx.fill(); ctx.stroke();
+                c.arc(i * -8, wiggle, unit.size * (1 - (i*0.2)), 0, Math.PI*2);
             }
+            c.fill();
+            applySkinTexture(c, unit, skinType, color);
+            c.stroke();
         } 
         
-        // --- STAGE 2: WORKER (Ant: Head, Thorax, Abdomen) ---
+        // --- STAGE 2: WORKER (Dinosaur/Raptor) ---
         else if (unit.stage === 2) {
-            // Legs
-            ctx.strokeStyle = color; ctx.lineWidth = 2;
-            for(let i=0; i<3; i++) { // 3 pairs
-                const yDir = 1;
-                const xPos = -5 + (i*5);
-                const legWiggle = Math.sin(time + i) * 5;
-                // Top
-                ctx.beginPath(); ctx.moveTo(xPos, 0); ctx.lineTo(xPos+5, -unit.size - legWiggle); ctx.stroke();
-                // Bottom
-                ctx.beginPath(); ctx.moveTo(xPos, 0); ctx.lineTo(xPos+5, unit.size + legWiggle); ctx.stroke();
-            }
-            ctx.strokeStyle = '#111'; ctx.lineWidth = 1;
-
-            // Abdomen
-            ctx.beginPath(); ctx.ellipse(-12, 0, unit.size*0.9, unit.size*0.6, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-            // Thorax
-            ctx.beginPath(); ctx.ellipse(0, 0, unit.size*0.6, unit.size*0.5, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-            // Head
-            ctx.beginPath(); ctx.ellipse(10, 0, unit.size*0.7, unit.size*0.6, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            const wiggle = Math.sin(time) * 3;
             
-            // Mandibles
-            ctx.fillStyle = '#eee';
-            ctx.beginPath(); ctx.moveTo(15, -3); ctx.lineTo(22, -6); ctx.lineTo(18, -1); ctx.fill();
-            ctx.beginPath(); ctx.moveTo(15, 3); ctx.lineTo(22, 6); ctx.lineTo(18, 1); ctx.fill();
-            ctx.fillStyle = color; 
+            // Tail (Thick dinosaur tail)
+            c.beginPath();
+            c.moveTo(-10, 5);
+            c.quadraticCurveTo(-30, wiggle, -45, wiggle * 2); 
+            c.quadraticCurveTo(-30, -5 + wiggle, -10, -5);
+            c.fill(); c.stroke();
+
+            // Legs (Beefy hind legs)
+            c.strokeStyle = color; c.lineWidth = 4;
+            c.beginPath(); c.moveTo(-5, 5); c.lineTo(-5, 15); c.lineTo(5, 20 + wiggle); c.stroke();
+            c.beginPath(); c.moveTo(-5, -5); c.lineTo(-5, -15); c.lineTo(5, -20 - wiggle); c.stroke();
+            c.lineWidth = 1.5; c.strokeStyle = '#000';
+
+            // Body (Egg shape)
+            c.beginPath();
+            c.ellipse(0, 0, unit.size, unit.size*0.7, 0, 0, Math.PI*2);
+            c.fill();
+            applySkinTexture(c, unit, skinType, color);
+            c.stroke();
+
+            // Head (Snout/Raptor head)
+            c.beginPath();
+            c.ellipse(15, 0, unit.size*0.6, unit.size*0.5, 0, 0, Math.PI*2);
+            c.rect(15, -6, 12, 12); // Snout extension
+            c.fill(); c.stroke();
         }
 
-        // --- STAGE 3: SOLDIER/HUNTER (Spiky, Triangular) ---
+        // --- STAGE 3: HUNTER (Black Dragon) ---
         else if (unit.stage === 3) {
-            // Aggressive Legs
-            ctx.strokeStyle = color; ctx.lineWidth = 3;
-            for(let i=0; i<3; i++) {
-                const legWiggle = Math.cos(time + i*2) * 6;
-                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, -unit.size-5+legWiggle); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, unit.size+5-legWiggle); ctx.stroke();
-            }
+            const flap = Math.sin(time * 2) * 15;
             
-            // Body (Carapace)
-            ctx.beginPath();
-            ctx.moveTo(20, 0); // Nose
-            ctx.lineTo(-10, -15); // Back Left
-            ctx.lineTo(-5, 0); // Center indent
-            ctx.lineTo(-10, 15); // Back Right
-            ctx.closePath();
-            ctx.fill(); ctx.stroke();
-            
-            // Armor Stripe
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-5, -8); ctx.lineTo(-5, 8); ctx.fill();
-            ctx.fillStyle = color;
+            // Wings
+            c.fillStyle = color; c.globalAlpha = 0.8;
+            c.beginPath();
+            c.moveTo(5, -5); c.lineTo(35, -45 + flap); c.lineTo(15, 0); // Left Wing
+            c.moveTo(5, 5); c.lineTo(35, 45 - flap); c.lineTo(15, 0);   // Right Wing
+            c.fill(); c.stroke();
+            c.globalAlpha = 1;
 
-            // Large Mandibles
-            ctx.fillStyle = '#ccc';
-            ctx.beginPath(); ctx.moveTo(18, -5); ctx.lineTo(35, -10); ctx.lineTo(25, -2); ctx.fill();
-            ctx.beginPath(); ctx.moveTo(18, 5); ctx.lineTo(35, 10); ctx.lineTo(25, 2); ctx.fill();
-            ctx.fillStyle = color; 
+            // Tail (Long & Spiked)
+            c.beginPath();
+            c.moveTo(-10, 0);
+            c.lineTo(-50, Math.sin(time)*5);
+            c.lineWidth = 4; c.strokeStyle = color; c.stroke();
+            c.lineWidth = 1.5; c.strokeStyle = '#000';
+
+            // Body (Sleek)
+            c.beginPath();
+            c.moveTo(20, 0); c.lineTo(-15, -10); c.lineTo(-20, 0); c.lineTo(-15, 10); c.closePath();
+            c.fill();
+            applySkinTexture(c, unit, skinType, color);
+            c.stroke();
+
+            // Head (Sharp/Dragon)
+            c.beginPath();
+            c.moveTo(20, -8); c.lineTo(45, 0); c.lineTo(20, 8); c.fill(); c.stroke();
+            // Horns
+            c.strokeStyle = color;
+            c.beginPath(); c.moveTo(20, -5); c.lineTo(10, -15); c.stroke();
+            c.beginPath(); c.moveTo(20, 5); c.lineTo(10, 15); c.stroke();
         }
 
-        // --- STAGE 4: PRAETORIAN/TITAN (Shield, Boxy) ---
+        // --- STAGE 4: TITAN (Xenomorph) ---
         else if (unit.stage === 4) {
-             // Thick Legs
-            ctx.strokeStyle = '#222'; ctx.lineWidth = 6;
-            ctx.beginPath(); ctx.moveTo(-10, -15); ctx.lineTo(-10, -35); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(-10, 15); ctx.lineTo(-10, 35); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(10, -15); ctx.lineTo(20, -35); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(10, 15); ctx.lineTo(20, 35); ctx.stroke();
+             // Limbs (Spindly but strong)
+            c.strokeStyle = '#333'; c.lineWidth = 4;
+            c.beginPath(); c.moveTo(-5, -10); c.lineTo(10, -35); c.lineTo(30, -25); c.stroke(); // Front L
+            c.beginPath(); c.moveTo(-5, 10); c.lineTo(10, 35); c.lineTo(30, 25); c.stroke();   // Front R
+            c.beginPath(); c.moveTo(-15, -10); c.lineTo(-25, -30); c.stroke(); // Back L
+            c.beginPath(); c.moveTo(-15, 10); c.lineTo(-25, 30); c.stroke();   // Back R
 
-            // Main Hull
-            ctx.beginPath();
-            ctx.rect(-20, -20, 40, 40);
-            ctx.fill(); ctx.stroke();
+            // Tail (Long segmented stinger)
+            const tailWag = Math.cos(time) * 10;
+            c.strokeStyle = color; c.lineWidth = 6;
+            c.beginPath(); c.moveTo(-10, 0); c.quadraticCurveTo(-50, tailWag, -70, tailWag*1.5); c.stroke();
+            c.fillStyle = '#fff'; c.beginPath(); c.arc(-70, tailWag*1.5, 3, 0, Math.PI*2); c.fill(); // Stinger tip
 
-            // Armor Plating
-            ctx.fillStyle = 'rgba(255,255,255,0.1)';
-            ctx.fillRect(-15, -15, 15, 30);
-            ctx.fillStyle = 'rgba(0,0,0,0.2)';
-            ctx.fillRect(5, -15, 15, 30);
-            ctx.fillStyle = color;
-
-            // Head Plate
-            ctx.beginPath(); ctx.moveTo(20, -15); ctx.lineTo(35, 0); ctx.lineTo(20, 15); ctx.fill(); ctx.stroke();
+            // Body (Ribbed)
+            c.fillStyle = color; c.strokeStyle = '#000'; c.lineWidth = 1;
+            c.beginPath(); c.ellipse(0, 0, 20, 10, 0, 0, Math.PI*2); c.fill();
+            applySkinTexture(c, unit, skinType, color);
+            c.stroke();
+            
+            // Head (Elongated Banana Shape)
+            c.beginPath();
+            c.ellipse(10, 0, 35, 12, 0, 0, Math.PI*2); // The long head
+            c.fill(); c.stroke();
+            // Inner Jaw
+            c.fillStyle = '#888'; c.fillRect(35, -2, 5, 4);
         }
 
-        // --- STAGE 5: QUEEN/BOSS (Massive) ---
+        // --- STAGE 5: QUEEN (The "King" / Open Maw Monster) ---
         else if (unit.stage === 5) {
-            // Huge Abdomen
-            ctx.beginPath(); ctx.ellipse(-30, 0, 40, 25, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-            // Thorax
-            ctx.beginPath(); ctx.arc(10, 0, 20, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-            // Crown Head
-            ctx.beginPath(); 
-            ctx.moveTo(30, -10); ctx.lineTo(50, -15); ctx.lineTo(40, 0); ctx.lineTo(50, 15); ctx.lineTo(30, 10); 
-            ctx.fill(); ctx.stroke();
+            // Massive Shoulders/Armor
+            c.fillStyle = color;
+            c.beginPath(); c.arc(0, -20, 25, 0, Math.PI*2); c.fill(); c.stroke();
+            c.beginPath(); c.arc(0, 20, 25, 0, Math.PI*2); c.fill(); c.stroke();
+
+            // Main Body
+            c.beginPath(); 
+            c.ellipse(-10, 0, 50, 40, 0, 0, Math.PI*2);
+            c.fill();
+            applySkinTexture(c, unit, skinType, color);
+            c.stroke();
+            
+            // The Maw (Open Mouth)
+            c.fillStyle = '#000'; // Darkness inside mouth
+            c.beginPath(); c.arc(35, 0, 20, 0, Math.PI*2); c.fill();
+            
+            // Teeth/Mandibles
+            c.strokeStyle = '#fff'; c.lineWidth = 2;
+            c.beginPath(); c.moveTo(35, -20); c.lineTo(45, -5); c.stroke();
+            c.beginPath(); c.moveTo(35, 20); c.lineTo(45, 5); c.stroke();
+
+            // Spikes/Crown
+            c.fillStyle = color;
+            c.beginPath(); c.moveTo(-20, -30); c.lineTo(-40, -50); c.lineTo(-10, -30); c.fill();
+            c.beginPath(); c.moveTo(-20, 30); c.lineTo(-40, 50); c.lineTo(-10, 30); c.fill();
         }
 
-        // -- 4. MUTATION OVERLAYS (Visual Equipment) --
-        
-        // Tesla Coil
+        // --- MUTATION VISUALS ---
         if (unit.stats.tesla) {
-            ctx.fillStyle = '#00e5ff';
-            ctx.beginPath(); ctx.arc(-5, 0, 6, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
-            ctx.beginPath(); ctx.arc(-5, 0, 3, 0, Math.PI*2); ctx.fill();
+            c.fillStyle = '#00e5ff'; c.beginPath(); c.arc(-5, 0, 6, 0, Math.PI*2); c.fill();
+            c.shadowColor = '#00e5ff'; c.shadowBlur = 10;
         }
-
-        // Sniper Barrel
         if (unit.stats.sniper) {
-            ctx.fillStyle = '#333';
-            ctx.fillRect(10, -3, 30, 6); // Long barrel
-            ctx.fillStyle = '#00e5ff';
-            ctx.fillRect(38, -2, 2, 4); // Tip
+            c.fillStyle = '#333'; c.fillRect(10, -3, 30, 6);
+            c.fillStyle = '#00e5ff'; c.fillRect(38, -2, 2, 4);
         }
-
-        // Stinger Spike
         if (unit.stats.melee) {
-            ctx.fillStyle = '#e65100';
-            ctx.beginPath();
-            ctx.moveTo(-unit.size, -5);
-            ctx.lineTo(-unit.size - 20, 0); // Stick out back
-            ctx.lineTo(-unit.size, 5);
-            ctx.fill();
+            c.fillStyle = '#e65100'; c.beginPath(); c.moveTo(-unit.size, -5); c.lineTo(-unit.size - 20, 0); c.lineTo(-unit.size, 5); c.fill();
         }
 
-        // -- 5. EYES & GLOW --
-        if (!unit.downed) {
-            ctx.fillStyle = (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
-            ctx.shadowBlur = 5; ctx.shadowColor = ctx.fillStyle;
-            
-            // Eye positions vary by stage
-            let eyeX = unit.size/2;
-            if(unit.stage===3) eyeX = 15;
-            if(unit.stage===4) eyeX = 25;
-            
-            ctx.beginPath(); ctx.arc(eyeX, -5, 2, 0, Math.PI*2); ctx.fill();
-            ctx.beginPath(); ctx.arc(eyeX, 5, 2, 0, Math.PI*2); ctx.fill();
+        // --- EYES (Modified for new shapes) ---
+        if (!unit.downed && unit.stage !== 4 && unit.stage !== 5) { // Titan/Queen have no visible eyes or different eyes
+            c.fillStyle = (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
+            c.shadowBlur = 5; c.shadowColor = c.fillStyle;
+            let eyeX = unit.size/2; 
+            if(unit.stage===2) eyeX = 20; // Raptor eyes
+            if(unit.stage===3) eyeX = 35; // Dragon eyes
+            c.beginPath(); c.arc(eyeX, -5, 2, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(eyeX, 5, 2, 0, Math.PI*2); c.fill();
+        }
+        // Glowing Mouth for Queen
+        if(!unit.downed && unit.stage === 5) {
+             c.fillStyle = (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
+             c.globalAlpha = 0.5;
+             c.beginPath(); c.arc(35, 0, 10, 0, Math.PI*2); c.fill();
+             c.globalAlpha = 1;
         }
 
-        ctx.restore();
+        c.restore();
+    }
+
+    // --- ARCHIVE SYSTEM (GALLERY) ---
+    let archiveSkin = 'DEFAULT';
+    let archiveAnimationId = null;
+
+    function openArchive() {
+        document.getElementById('menu-screen').style.display = 'none';
+        document.getElementById('archive-screen').style.display = 'flex';
+        
+        // Build toggles
+        const controls = document.getElementById('archive-controls');
+        controls.innerHTML = '';
+        for(let key in SKINS) {
+            const btn = document.createElement('div');
+            btn.className = `skin-toggle ${archiveSkin === key ? 'active' : ''}`;
+            btn.innerText = SKINS[key].name;
+            btn.onclick = () => { archiveSkin = key; openArchive(); };
+            controls.appendChild(btn);
+        }
+
+        if(archiveAnimationId) cancelAnimationFrame(archiveAnimationId);
+        renderArchiveLoop();
+    }
+    
+    function closeArchive() {
+        if(archiveAnimationId) cancelAnimationFrame(archiveAnimationId);
+        document.getElementById('archive-screen').style.display = 'none';
+        document.getElementById('menu-screen').style.display = 'flex';
+    }
+
+    function renderArchiveLoop() {
+        const ac = document.getElementById('archiveCanvas');
+        const actx = ac.getContext('2d');
+        actx.clearRect(0, 0, ac.width, ac.height);
+
+        // Draw labels and units
+        actx.font = "20px monospace"; actx.fillStyle = "#888"; actx.textAlign = "center";
+        
+        const labels = ["LARVA", "WORKER", "HUNTER", "TITAN", "QUEEN"];
+        const spacing = 180;
+        const startX = 140;
+        const centerY = 200;
+
+        for(let i=0; i<5; i++) {
+            const stage = i+1;
+            const x = startX + (i*spacing);
+            
+            actx.fillStyle = "#444";
+            actx.fillText(labels[i], x, centerY + 80);
+            
+            // Create dummy entity for render
+            const dummy = new Entity(x, centerY, 'player', stage, ['NONE']);
+            
+            // Mock skin selection
+            equippedSkin = archiveSkin; // Temporarily swap global to render
+            dummy.draw(actx);
+        }
+        equippedSkin = localStorage.getItem('pf_equipped') || 'DEFAULT'; // Restore actual
+
+        archiveAnimationId = requestAnimationFrame(renderArchiveLoop);
     }
 
     // --- MENU LOGIC ---
