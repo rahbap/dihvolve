@@ -36,7 +36,6 @@
         .btn-purple { border-color: #d500f9; }
         .btn-purple:hover { background: #d500f9; box-shadow: 0 0 25px #d500f9; }
         
-        /* CLOSE BUTTON */
         .btn-fixed-close {
             position: fixed; top: 20px; right: 20px;
             width: 50px; height: 50px; border-radius: 50%;
@@ -51,7 +50,6 @@
             text-shadow: 0 0 10px #fdd835; text-align: center;
         }
 
-        /* GRIDS */
         .grid-container {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
             max-width: 1100px; padding-bottom: 50px;
@@ -65,7 +63,6 @@
         .item-card.owned { border-color: #4caf50; }
         .item-card.selected { background: linear-gradient(45deg, #1b5e20, #000); border-color: #69f0ae; box-shadow: 0 0 15px #4caf50; }
 
-        /* LAB SPECIFIC */
         #loadout-display {
             display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; max-width: 900px;
         }
@@ -82,7 +79,6 @@
             background: rgba(20, 0, 20, 0.5); text-align: center; width: 60%;
         }
 
-        /* UPGRADE BARS */
         .upgrade-row {
             display: flex; align-items: center; justify-content: space-between;
             background: #111; padding: 15px; margin-bottom: 10px; border: 1px solid #333;
@@ -92,7 +88,6 @@
         .pip { width: 15px; height: 15px; background: #333; border: 1px solid #555; }
         .pip.active { background: #00e5ff; box-shadow: 0 0 5px #00e5ff; }
 
-        /* HUD */
         #hud-container {
             position: absolute; bottom: 20px; left: 20px; right: 20px;
             display: flex; justify-content: space-between; pointer-events: none;
@@ -145,23 +140,19 @@
         <button class="btn-fixed-close" onclick="closeUpgrades()">✕</button>
         <h1 style="color:#d500f9; text-shadow: 0 0 30px #d500f9; margin-top: 60px;">HIVE EVOLUTION</h1>
         <div class="currency-display">COINS: <span id="upgrade-coins">0</span></div>
-        <div id="upgrade-list">
-            </div>
+        <div id="upgrade-list"></div>
     </div>
 
     <div id="lab-screen" class="ui-layer" style="display: none;">
         <button class="btn-fixed-close" onclick="closeLab()">✕</button>
         <h1 style="color:#00e5ff; text-shadow: 0 0 30px #00e5ff; margin-top: 60px;">GENE LAB</h1>
         <div class="currency-display">COINS: <span id="lab-coins">0</span></div>
-        
         <div class="evo-section">
             <h3 style="color:#d500f9; margin-bottom:10px;">🧬 GENE SPLICING</h3>
             <p style="color:#aaa; font-size:12px;">Modify starting evolutionary stage.</p>
             <button id="evo-btn" class="btn" style="padding:5px 20px; font-size:16px; border-color:#d500f9;" onclick="toggleStartStage()">STARTING FORM: LARVA</button>
         </div>
-
-        <div id="loadout-display">
-            </div>
+        <div id="loadout-display"></div>
         <div style="text-align: center;">
             <button class="btn" onclick="clearLoadout()" style="padding: 5px 20px; font-size: 16px; min-width: 100px; border-color:#e53935; background:#220000; margin-bottom: 20px;">RESET SLOTS</button>
         </div>
@@ -189,14 +180,12 @@
             [SPACE] Evolve &nbsp; [X] Dismiss Weakest<br>
             [R] Recruit &nbsp; [F] Harvest
         </div>
-
         <div id="interactions">
             <div id="recruit-prompt" class="prompt">
                 Target Downed<br>
                 <span class="key">[R]</span> Assimilate &nbsp;|&nbsp; <span class="key">[F]</span> Consume
             </div>
         </div>
-
         <div id="hud-container">
             <div class="panel">
                 <div class="stat-row"><span>BIOMASS</span> <span id="bio-val" class="stat-val">0</span></div>
@@ -205,7 +194,6 @@
                 <div class="stat-row"><span>CURRENT FORM</span> <span id="form-val" style="color:#aaa">Larva</span></div>
                 <div id="evo-ready" style="color: #fdd835; font-weight:bold; margin-top: 5px; display: none; text-shadow: 0 0 5px yellow;">⚠ EVOLUTION READY [SPACE]</div>
             </div>
-            
             <div class="panel" style="text-align: right;">
                 <div style="font-size: 10px; color: #666; letter-spacing: 1px;">GENETIC STRAIN</div>
                 <div id="mutation-val" style="font-size: 14px; font-weight: bold; color: white;">Stable</div>
@@ -261,7 +249,7 @@
         GHOST:    { name: "Phantom", desc: "Stealth", color: '#cfd8dc', cost: 100, stat: { stealth: true } },
         ACID:     { name: "Toxic", desc: "Acid Bullets", color: '#76ff03', cost: 120, stat: { acid: true, dmg: 1.2 } },
         REGEN:    { name: "Regen", desc: "Rapid Heal", color: '#ff4081', cost: 150, stat: { regen: true } },
-        NECRO:    { name: "BROODMOTHER", desc: "Kills recruit victim (RARE)", color: '#d500f9', cost: 5000, stat: { necro: true } },
+        NECRO:    { name: "BROODMOTHER", desc: "Kills recruit victim", color: '#d500f9', cost: 5000, stat: { necro: true } },
         SPIKE:    { name: "Thorns", desc: "Reflects Dmg on Hit", color: '#8d6e63', cost: 300, stat: { thorns: true } },
         FROST:    { name: "Frostbite", desc: "Slows Enemies", color: '#80deea', cost: 400, stat: { frost: true } },
         BOOM:     { name: "Volatile", desc: "Explodes on Death", color: '#ff3d00', cost: 350, stat: { boom: true } },
@@ -361,17 +349,26 @@
         }
     }
     
-    class SlashEffect {
+    // NEW VISUAL EFFECT FOR STINGER
+    class SpikeThrust {
         constructor(x, y, angle) {
-            this.x = x; this.y = y; this.angle = angle; this.life = 8;
+            this.x = x; this.y = y; this.angle = angle; this.life = 10;
         }
         update() { this.life--; }
         draw() {
             ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle);
-            ctx.strokeStyle = '#ff6d00'; ctx.lineWidth = 4;
-            ctx.shadowColor = '#ff3d00'; ctx.shadowBlur = 10;
-            ctx.beginPath(); ctx.moveTo(-15, -15); ctx.lineTo(15, 15); ctx.stroke();
-            ctx.restore();
+            ctx.globalAlpha = this.life / 10;
+            ctx.fillStyle = '#fff'; 
+            ctx.shadowColor = '#e65100'; ctx.shadowBlur = 20;
+            // Draw a sharp jagged spike
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(60, -10); // Tip
+            ctx.lineTo(40, 0);
+            ctx.lineTo(60, 10);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore(); ctx.globalAlpha = 1; ctx.shadowBlur = 0;
         }
     }
 
@@ -406,6 +403,7 @@
             if(stage === 2) baseSize = 18;
             if(stage === 3) baseSize = 28;
             if(stage === 4) baseSize = 40;
+            if(stage === 5) baseSize = 55;
             this.size = this.stats.size * baseSize;
             
             this.angle = 0;
@@ -423,6 +421,7 @@
 
             if(this.slowTimer > 0) this.slowTimer--;
 
+            // Regen Logic
             let regenRate = this.maxHp / 1800; 
             let regenThreshold = 5000;
             if (this.stats.regen) { regenRate *= 8; regenThreshold = 0; } 
@@ -434,6 +433,7 @@
                 }
             }
 
+            // Tesla Logic
             if (this.stats.tesla && Date.now() - this.lastZapTime > 800) {
                 const targets = this.team === 'player' ? STATE.enemies : STATE.squad;
                 const zapTarget = targets.find(t => !t.dead && !t.downed && Math.hypot(t.x - this.x, t.y - this.y) < 180);
@@ -449,18 +449,23 @@
                 }
             }
 
+            // Melee (Stinger) Logic
             if (this.stats.melee) {
                 const targets = this.team === 'player' ? STATE.enemies : STATE.squad;
+                let hitAnyone = false;
                 targets.forEach(t => {
                     if (!t.dead && !t.downed && Math.hypot(t.x - this.x, t.y - this.y) < this.size + t.size + 10) {
                         let dmg = 2; if(isPlayerControlled) dmg *= 1.5; 
                         t.takeDamage(dmg, this);
-                        if(Math.random() < 0.2) {
-                            spawnParticles(t.x, t.y, '#e65100', 3, 2);
-                            STATE.effects.push(new SlashEffect(t.x + (Math.random()*20-10), t.y + (Math.random()*20-10), Math.random()*Math.PI));
-                        }
+                        hitAnyone = true;
+                        if(Math.random() < 0.1) spawnParticles(t.x, t.y, '#e65100', 3, 2);
                     }
                 });
+
+                // Visual Trigger for Stinger Hit
+                if(hitAnyone && Math.random() < 0.2) {
+                    STATE.effects.push(new SpikeThrust(this.x, this.y, this.angle));
+                }
             }
         }
 
@@ -525,58 +530,49 @@
         draw() {
             if (this.dead) return;
             
-            let fillStyle;
+            // COLOR LOGIC
+            let baseColor, glowColor;
             if (this.team === 'player') {
                 const skin = SKINS[equippedSkin];
-                if (skin.type === 'neon') {
-                    fillStyle = '#000';
-                    ctx.shadowBlur = 10; ctx.shadowColor = skin.color;
-                    ctx.strokeStyle = skin.color; ctx.lineWidth = 2;
-                } else if (skin.type === 'gold') {
-                    const g = ctx.createLinearGradient(this.x-10, this.y-10, this.x+10, this.y+10);
-                    g.addColorStop(0, '#ffd700'); g.addColorStop(0.5, '#fff8e1'); g.addColorStop(1, '#ff6f00');
-                    fillStyle = g;
-                } else if (skin.type === 'glitch') {
-                    fillStyle = Math.random() > 0.9 ? '#fff' : '#111';
-                    if(Math.random()>0.95) ctx.translate(Math.random()*4-2, 0);
-                } else if (skin.type === 'void') {
-                    fillStyle = '#222';
-                    ctx.shadowBlur = 15; ctx.shadowColor = '#6a1b9a';
-                    ctx.strokeStyle = '#fff';
-                } else {
-                    fillStyle = skin.color;
-                }
+                baseColor = skin.color;
+                glowColor = skin.type === 'neon' ? skin.color : null;
+                
+                // Skin effects
+                if (skin.type === 'gold') baseColor = '#ffd700'; 
+                if (skin.type === 'void') { baseColor = '#222'; glowColor = '#6a1b9a'; }
             } else {
-                fillStyle = this.downed ? '#555' : '#e53935';
+                baseColor = this.downed ? '#444' : '#d32f2f'; // Enemy Red
+                glowColor = this.downed ? null : '#ff0000';
             }
 
+            // Mutation Glow
             const hasMutation = this.mutations.some(m => m !== 'NONE');
             if (hasMutation && !this.downed) {
-                const glowColor = MUTATIONS[this.mutations.find(m => m !== 'NONE') || 'NONE'].color;
-                ctx.shadowBlur = 20; 
-                ctx.shadowColor = glowColor;
+                const mType = MUTATIONS[this.mutations.find(m => m !== 'NONE') || 'NONE'];
+                if(!glowColor) glowColor = mType.color;
             }
-            if(this.slowTimer > 0) { ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 15; fillStyle = '#b2ebf2'; }
 
+            // Apply Visuals
             if(this.stats.stealth) ctx.globalAlpha = 0.3;
-
-            drawCreatureBody(this, fillStyle, this.team==='player' && SKINS[equippedSkin].type === 'neon');
+            if(this.slowTimer > 0) { ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 10; baseColor = '#b2ebf2'; }
             
+            drawCreatureBody(this, baseColor, glowColor);
+
             ctx.shadowBlur = 0; ctx.globalAlpha = 1.0;
             ctx.setTransform(1,0,0,1,0,0); 
 
+            // Health Bar
             if (!this.downed) {
-                // CHANGED: Moved health bar UP significantly to avoid selection circle overlap
                 const barW = this.size * 1.5;
-                const barY = this.y - this.size - 40; // Moved higher up (was -20)
-                ctx.fillStyle = '#000'; ctx.fillRect(this.x - barW/2, barY, barW, 5);
+                const barY = this.y - this.size - 40; 
+                ctx.fillStyle = '#000'; ctx.fillRect(this.x - barW/2, barY, barW, 6);
                 ctx.fillStyle = (this.stats.regen && this.hp < this.maxHp) ? '#ff4081' : (this.team === 'player' ? '#4caf50' : '#d32f2f');
-                ctx.fillRect(this.x - barW/2 + 1, barY + 1, (barW-2) * (this.hp / this.maxHp), 3);
+                ctx.fillRect(this.x - barW/2 + 1, barY + 1, (barW-2) * (this.hp / this.maxHp), 4);
             }
         }
     }
 
-    // --- MAIN LOGIC ---
+    // --- MAIN GAME LOGIC ---
 
     function initGame() {
         document.getElementById('menu-coins').innerText = playerCoins;
@@ -651,7 +647,7 @@
         STATE.squad.forEach((s, i) => {
             s.draw();
             if (i === STATE.playerIndex) {
-                // CHANGED: Pulsing selection circle, larger radius
+                // Pulsing selection circle
                 const pulse = Math.sin(Date.now() / 150) * 2;
                 ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]);
                 ctx.beginPath(); ctx.arc(s.x, s.y, s.size + 25 + pulse, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
@@ -668,21 +664,17 @@
         if (difficulty > 3000 && r > 0.6) stage = 2;
         if (difficulty > 10000 && r > 0.85) stage = 3;
         if (difficulty > 25000 && r > 0.95) stage = 4;
+        if (difficulty > 50000 && r > 0.98) stage = 5; // Boss Spawn
 
         let mutationCount = 0;
         if (Math.random() < (difficulty / 5000)) mutationCount = 1;
         if (difficulty > 5000 && Math.random() < 0.4) mutationCount = 2;
-        if (difficulty > 12000 && Math.random() < 0.3) mutationCount = 3;
-
+        
         const activeMutations = [];
         const mutKeys = Object.keys(MUTATIONS).filter(k => k !== 'NONE');
-        
         if (mutationCount === 0) activeMutations.push('NONE');
         else {
-            for(let i=0; i<mutationCount; i++) {
-                const pick = mutKeys[Math.floor(Math.random() * mutKeys.length)];
-                if(!activeMutations.includes(pick)) activeMutations.push(pick);
-            }
+            for(let i=0; i<mutationCount; i++) activeMutations.push(mutKeys[Math.floor(Math.random() * mutKeys.length)]);
         }
         
         const side = Math.floor(Math.random()*4);
@@ -701,7 +693,6 @@
         if (STATE.squad.length < prevLen && STATE.playerIndex >= STATE.squad.length) {
             STATE.playerIndex = Math.max(0, STATE.squad.length - 1);
         }
-
         if (STATE.squad.length === 0) triggerGameOver();
 
         const player = STATE.squad[STATE.playerIndex];
@@ -716,7 +707,6 @@
             if (input.keys['d']) player.x += moveSpeed;
             player.x = Math.max(20, Math.min(canvas.width-20, player.x));
             player.y = Math.max(20, Math.min(canvas.height-20, player.y));
-            
             player.angle = Math.atan2(input.mouse.y - player.y, input.mouse.x - player.x);
             
             if (input.mouseDown && Date.now() - STATE.lastShot > (player.stats.sniper ? 1500 : 200) && !player.stats.melee) {
@@ -740,13 +730,9 @@
 
     function shoot(unit) {
         if (unit.dead || unit.downed) return;
-        
         const speed = unit.stats.sniper ? 25 : 12;
         let dmg = (20 * unit.stats.dmg) * (unit.stats.sniper ? 4 : 1);
-        
-        if(unit.team === 'player' && unit === STATE.squad[STATE.playerIndex]) {
-            dmg *= 1.5;
-        }
+        if(unit.team === 'player' && unit === STATE.squad[STATE.playerIndex]) dmg *= 1.5;
 
         let color = unit.team === 'player' ? '#00e676' : '#ff5252';
         if (unit.stats.acid) color = '#76ff03';
@@ -759,26 +745,18 @@
                 isAcid: unit.stats.acid
             });
         };
-
         createProj(unit.angle);
-
-        if (unit.stats.multi) {
-            createProj(unit.angle + 0.3);
-            createProj(unit.angle - 0.3);
-        }
+        if (unit.stats.multi) { createProj(unit.angle + 0.3); createProj(unit.angle - 0.3); }
     }
 
     function updateProjectiles() {
         for (let i = STATE.projectiles.length - 1; i >= 0; i--) {
             const p = STATE.projectiles[i];
             p.x += p.vx; p.y += p.vy;
-            
             if(Math.random()<0.3) spawnParticles(p.x, p.y, p.color, 0, 1.5);
 
-            ctx.fillStyle = p.color;
-            ctx.shadowBlur = 5; ctx.shadowColor = p.color;
-            ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill();
-            ctx.shadowBlur = 0;
+            ctx.fillStyle = p.color; ctx.shadowBlur = 5; ctx.shadowColor = p.color;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur = 0;
 
             let hit = false;
             const targets = p.team === 'player' ? STATE.enemies : STATE.squad;
@@ -786,13 +764,9 @@
                 if (t.dead || t.downed) continue;
                 if (Math.hypot(p.x - t.x, p.y - t.y) < t.size + 5) {
                     t.takeDamage(p.damage, p.shooter);
-                    if (p.shooter && p.shooter.stats.lifesteal && p.shooter.hp < p.shooter.maxHp) {
-                        p.shooter.hp += 5; 
-                        spawnParticles(p.shooter.x, p.shooter.y, '#880e4f', 1, 2);
-                    }
+                    if (p.shooter && p.shooter.stats.lifesteal && p.shooter.hp < p.shooter.maxHp) p.shooter.hp += 5; 
                     if(p.isAcid) spawnParticles(t.x, t.y, '#76ff03', 3, 3);
-                    hit = true;
-                    break;
+                    hit = true; break;
                 }
             }
             if (hit || p.x<0 || p.x>canvas.width || p.y<0 || p.y>canvas.height) STATE.projectiles.splice(i, 1);
@@ -824,47 +798,28 @@
         if (unit.stats.boom) {
             spawnParticles(unit.x, unit.y, '#ff3d00', 8, 30);
             const targets = unit.team === 'player' ? STATE.enemies : STATE.squad;
-            targets.forEach(t => {
-                if(Math.hypot(t.x - unit.x, t.y - unit.y) < 150) {
-                    t.takeDamage(50, unit);
-                }
-            });
-            STATE.particles.push({
-                x: unit.x, y: unit.y, size: 5, life: 20, maxLife: 20,
-                color: '#ff3d00',
-                update: function(){ this.size += 5; this.life--; },
-                draw: function(){ ctx.globalAlpha = this.life/20; ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;}
-            });
+            targets.forEach(t => { if(Math.hypot(t.x - unit.x, t.y - unit.y) < 150) t.takeDamage(50, unit); });
         }
 
         if (unit.team === 'enemy') {
             unit.downed = true; unit.hp = 0;
             unit.x = Math.max(50, Math.min(canvas.width - 50, unit.x));
             unit.y = Math.max(50, Math.min(canvas.height - 50, unit.y));
-            
             spawnParticles(unit.x, unit.y, '#e53935', 6, 15);
             if (Math.random() < 0.5) STATE.sessionCoins += (unit.stage * 10);
-            
             const bioReward = unit.stage * 15;
             STATE.biomass += bioReward;
             STATE.texts.push(new FloatingText(unit.x, unit.y - 20, `+${bioReward} BIO`, '#4caf50'));
 
             if (killer && killer.stats.necro && STATE.squad.length < MAX_SQUAD) {
-                unit.team = 'player';
-                unit.downed = false;
-                unit.hp = unit.maxHp; 
+                unit.team = 'player'; unit.downed = false; unit.hp = unit.maxHp; 
                 STATE.squad.push(unit);
-                const idx = STATE.enemies.indexOf(unit);
-                if(idx > -1) STATE.enemies.splice(idx, 1);
+                const idx = STATE.enemies.indexOf(unit); if(idx > -1) STATE.enemies.splice(idx, 1);
                 spawnParticles(unit.x, unit.y, '#d500f9', 4, 15);
                 STATE.texts.push(new FloatingText(unit.x, unit.y - 40, "RISEN", '#d500f9'));
             } else {
-                setTimeout(() => {
-                    const idx = STATE.enemies.indexOf(unit);
-                    if(idx > -1) STATE.enemies.splice(idx, 1);
-                }, 10000);
+                setTimeout(() => { const idx = STATE.enemies.indexOf(unit); if(idx > -1) STATE.enemies.splice(idx, 1); }, 10000);
             }
-
         } else {
             unit.dead = true;
             spawnParticles(unit.x, unit.y, '#4caf50', 6, 20);
@@ -877,21 +832,207 @@
         localStorage.setItem('pf_coins', playerCoins);
         activeLoadout = [];
         localStorage.setItem('pf_loadout', JSON.stringify(activeLoadout));
-        
         document.getElementById('final-score').innerText = STATE.score;
         document.getElementById('final-coins').innerText = STATE.sessionCoins;
         document.getElementById('game-over-screen').style.display = 'flex';
     }
 
     function getClosest(me, list) {
-        let target = null;
-        let dist = 9999;
+        let target = null; let dist = 9999;
         list.forEach(e => {
             if (e.downed || e.dead) return;
             const d = Math.hypot(e.x - me.x, e.y - me.y);
             if (d < dist) { dist = d; target = e; }
         });
         return target;
+    }
+
+    // --- DRAWING: THE NEW "COOL" VISUALS ---
+    function drawCreatureBody(unit, color, glowColor) {
+        ctx.save();
+        ctx.translate(unit.x, unit.y);
+        ctx.rotate(unit.angle);
+
+        // -- 1. BASE PROPERTIES --
+        if (glowColor) {
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = glowColor;
+        }
+        ctx.fillStyle = color;
+        ctx.strokeStyle = '#111';
+        ctx.lineWidth = 1;
+
+        const time = Date.now() / 150;
+
+        // -- 2. MUTATIONS (UNDER LAYER) --
+        // Wings
+        if (unit.stats.speed > 1.6 && !unit.stats.sniper) {
+            ctx.save();
+            ctx.fillStyle = 'rgba(200, 240, 255, 0.4)';
+            ctx.translate(-5, 0);
+            const wingFlap = Math.sin(Date.now()/50) * 10;
+            // Left Wing
+            ctx.beginPath(); ctx.ellipse(0, -15, 20, 8, Math.PI/-4 + (wingFlap*0.02), 0, Math.PI*2); ctx.fill();
+            // Right Wing
+            ctx.beginPath(); ctx.ellipse(0, 15, 20, 8, Math.PI/4 - (wingFlap*0.02), 0, Math.PI*2); ctx.fill();
+            ctx.restore();
+        }
+
+        // -- 3. BODY SHAPE BY STAGE --
+        
+        // --- STAGE 1: LARVA (Worm-like, segmented) ---
+        if (unit.stage === 1) {
+            const segs = 3;
+            for(let i=segs; i>=0; i--) {
+                const wiggle = Math.sin(time + i) * 3;
+                const size = unit.size * (1 - (i*0.2));
+                const offset = i * -8;
+                ctx.beginPath();
+                ctx.arc(offset, wiggle, size, 0, Math.PI*2);
+                ctx.fill(); ctx.stroke();
+            }
+        } 
+        
+        // --- STAGE 2: WORKER (Ant: Head, Thorax, Abdomen) ---
+        else if (unit.stage === 2) {
+            // Legs
+            ctx.strokeStyle = color; ctx.lineWidth = 2;
+            for(let i=0; i<3; i++) { // 3 pairs
+                const yDir = 1;
+                const xPos = -5 + (i*5);
+                const legWiggle = Math.sin(time + i) * 5;
+                // Top
+                ctx.beginPath(); ctx.moveTo(xPos, 0); ctx.lineTo(xPos+5, -unit.size - legWiggle); ctx.stroke();
+                // Bottom
+                ctx.beginPath(); ctx.moveTo(xPos, 0); ctx.lineTo(xPos+5, unit.size + legWiggle); ctx.stroke();
+            }
+            ctx.strokeStyle = '#111'; ctx.lineWidth = 1;
+
+            // Abdomen
+            ctx.beginPath(); ctx.ellipse(-12, 0, unit.size*0.9, unit.size*0.6, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            // Thorax
+            ctx.beginPath(); ctx.ellipse(0, 0, unit.size*0.6, unit.size*0.5, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            // Head
+            ctx.beginPath(); ctx.ellipse(10, 0, unit.size*0.7, unit.size*0.6, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            
+            // Mandibles
+            ctx.fillStyle = '#eee';
+            ctx.beginPath(); ctx.moveTo(15, -3); ctx.lineTo(22, -6); ctx.lineTo(18, -1); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(15, 3); ctx.lineTo(22, 6); ctx.lineTo(18, 1); ctx.fill();
+            ctx.fillStyle = color; 
+        }
+
+        // --- STAGE 3: SOLDIER/HUNTER (Spiky, Triangular) ---
+        else if (unit.stage === 3) {
+            // Aggressive Legs
+            ctx.strokeStyle = color; ctx.lineWidth = 3;
+            for(let i=0; i<3; i++) {
+                const legWiggle = Math.cos(time + i*2) * 6;
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, -unit.size-5+legWiggle); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, unit.size+5-legWiggle); ctx.stroke();
+            }
+            
+            // Body (Carapace)
+            ctx.beginPath();
+            ctx.moveTo(20, 0); // Nose
+            ctx.lineTo(-10, -15); // Back Left
+            ctx.lineTo(-5, 0); // Center indent
+            ctx.lineTo(-10, 15); // Back Right
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+            
+            // Armor Stripe
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-5, -8); ctx.lineTo(-5, 8); ctx.fill();
+            ctx.fillStyle = color;
+
+            // Large Mandibles
+            ctx.fillStyle = '#ccc';
+            ctx.beginPath(); ctx.moveTo(18, -5); ctx.lineTo(35, -10); ctx.lineTo(25, -2); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(18, 5); ctx.lineTo(35, 10); ctx.lineTo(25, 2); ctx.fill();
+            ctx.fillStyle = color; 
+        }
+
+        // --- STAGE 4: PRAETORIAN/TITAN (Shield, Boxy) ---
+        else if (unit.stage === 4) {
+             // Thick Legs
+            ctx.strokeStyle = '#222'; ctx.lineWidth = 6;
+            ctx.beginPath(); ctx.moveTo(-10, -15); ctx.lineTo(-10, -35); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(-10, 15); ctx.lineTo(-10, 35); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(10, -15); ctx.lineTo(20, -35); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(10, 15); ctx.lineTo(20, 35); ctx.stroke();
+
+            // Main Hull
+            ctx.beginPath();
+            ctx.rect(-20, -20, 40, 40);
+            ctx.fill(); ctx.stroke();
+
+            // Armor Plating
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            ctx.fillRect(-15, -15, 15, 30);
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.fillRect(5, -15, 15, 30);
+            ctx.fillStyle = color;
+
+            // Head Plate
+            ctx.beginPath(); ctx.moveTo(20, -15); ctx.lineTo(35, 0); ctx.lineTo(20, 15); ctx.fill(); ctx.stroke();
+        }
+
+        // --- STAGE 5: QUEEN/BOSS (Massive) ---
+        else if (unit.stage === 5) {
+            // Huge Abdomen
+            ctx.beginPath(); ctx.ellipse(-30, 0, 40, 25, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            // Thorax
+            ctx.beginPath(); ctx.arc(10, 0, 20, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            // Crown Head
+            ctx.beginPath(); 
+            ctx.moveTo(30, -10); ctx.lineTo(50, -15); ctx.lineTo(40, 0); ctx.lineTo(50, 15); ctx.lineTo(30, 10); 
+            ctx.fill(); ctx.stroke();
+        }
+
+        // -- 4. MUTATION OVERLAYS (Visual Equipment) --
+        
+        // Tesla Coil
+        if (unit.stats.tesla) {
+            ctx.fillStyle = '#00e5ff';
+            ctx.beginPath(); ctx.arc(-5, 0, 6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.beginPath(); ctx.arc(-5, 0, 3, 0, Math.PI*2); ctx.fill();
+        }
+
+        // Sniper Barrel
+        if (unit.stats.sniper) {
+            ctx.fillStyle = '#333';
+            ctx.fillRect(10, -3, 30, 6); // Long barrel
+            ctx.fillStyle = '#00e5ff';
+            ctx.fillRect(38, -2, 2, 4); // Tip
+        }
+
+        // Stinger Spike
+        if (unit.stats.melee) {
+            ctx.fillStyle = '#e65100';
+            ctx.beginPath();
+            ctx.moveTo(-unit.size, -5);
+            ctx.lineTo(-unit.size - 20, 0); // Stick out back
+            ctx.lineTo(-unit.size, 5);
+            ctx.fill();
+        }
+
+        // -- 5. EYES & GLOW --
+        if (!unit.downed) {
+            ctx.fillStyle = (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
+            ctx.shadowBlur = 5; ctx.shadowColor = ctx.fillStyle;
+            
+            // Eye positions vary by stage
+            let eyeX = unit.size/2;
+            if(unit.stage===3) eyeX = 15;
+            if(unit.stage===4) eyeX = 25;
+            
+            ctx.beginPath(); ctx.arc(eyeX, -5, 2, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(eyeX, 5, 2, 0, Math.PI*2); ctx.fill();
+        }
+
+        ctx.restore();
     }
 
     // --- MENU LOGIC ---
@@ -939,7 +1080,6 @@
         renderShop();
     }
 
-    // --- UPGRADES LOGIC ---
     function openUpgrades() {
         document.getElementById('menu-screen').style.display = 'none';
         document.getElementById('upgrade-screen').style.display = 'flex';
@@ -954,21 +1094,15 @@
         document.getElementById('upgrade-coins').innerText = playerCoins;
         const list = document.getElementById('upgrade-list');
         list.innerHTML = '';
-
         for(let key in UPGRADE_DATA) {
             const up = UPGRADE_DATA[key];
             const currentLvl = playerUpgrades[key] || 0;
             const isMax = currentLvl >= up.max;
             const cost = isMax ? "MAX" : up.cost[currentLvl];
-
             const div = document.createElement('div');
             div.className = 'upgrade-row';
-            
             let pipsHtml = '';
-            for(let i=0; i<up.max; i++) {
-                pipsHtml += `<div class="pip ${i < currentLvl ? 'active' : ''}"></div>`;
-            }
-
+            for(let i=0; i<up.max; i++) pipsHtml += `<div class="pip ${i < currentLvl ? 'active' : ''}"></div>`;
             div.innerHTML = `
                 <div>
                     <h3 style="font-size:18px; color:#d500f9;">${up.name}</h3>
@@ -985,7 +1119,6 @@
         const up = UPGRADE_DATA[key];
         const currentLvl = playerUpgrades[key] || 0;
         if(currentLvl >= up.max) return;
-
         const cost = up.cost[currentLvl];
         if(playerCoins >= cost) {
             playerCoins -= cost;
@@ -996,24 +1129,20 @@
         }
     }
 
-    // --- LAB LOGIC ---
     function toggleStartStage() {
         if(playerUpgrades.startEvo > 0) {
             const max = playerUpgrades.startEvo + 1;
             preferStartStage++;
             if(preferStartStage > max) preferStartStage = 1;
             localStorage.setItem('pf_prefStage', preferStartStage);
-            
             const btn = document.getElementById('evo-btn');
             const name = preferStartStage === 1 ? 'LARVA' : (preferStartStage === 2 ? 'WORKER' : 'SOLDIER');
             btn.innerText = `STARTING FORM: ${name}`;
         }
     }
-
     function openLab() {
         document.getElementById('menu-screen').style.display = 'none';
         document.getElementById('lab-screen').style.display = 'flex';
-        
         const btn = document.getElementById('evo-btn');
         if(playerUpgrades.startEvo === 0) {
             btn.style.opacity = '0.5'; btn.innerText = "LOCKED (Requires 'Genetic Memory')";
@@ -1023,7 +1152,6 @@
             btn.innerText = `STARTING FORM: ${name}`;
             btn.onclick = toggleStartStage;
         }
-        
         renderLab();
         updateLoadoutDisplay();
     }
@@ -1036,13 +1164,11 @@
         document.getElementById('lab-coins').innerText = playerCoins;
         const grid = document.getElementById('lab-grid');
         grid.innerHTML = '';
-        
         for (let key in MUTATIONS) {
             if (key === 'NONE') continue;
             const m = MUTATIONS[key];
             const div = document.createElement('div');
             const inLoadout = activeLoadout.includes(key);
-            
             div.className = `item-card ${inLoadout ? 'selected' : ''}`;
             div.innerHTML = `
                 <h3 style="color:${m.color}">${m.name}</h3>
@@ -1056,13 +1182,10 @@
     function toggleLoadout(key, cost) {
         const idx = activeLoadout.indexOf(key);
         const maxSlots = 3 + playerUpgrades.startCount;
-        
         if (idx > -1) {
-            // Remove
             activeLoadout.splice(idx, 1);
             playerCoins += cost; 
         } else {
-            // Add
             if (activeLoadout.length >= maxSlots) return; 
             if (playerCoins >= cost) {
                 playerCoins -= cost;
@@ -1078,27 +1201,21 @@
         const display = document.getElementById('loadout-display');
         display.innerHTML = '';
         const maxSlots = 3 + playerUpgrades.startCount;
-        
         for(let i=0; i<maxSlots; i++) {
             const mKey = activeLoadout[i];
             const div = document.createElement('div');
             div.className = `canister ${mKey ? 'filled' : ''}`;
-            
             if(mKey) {
                 const m = MUTATIONS[mKey];
                 div.style.borderColor = m.color;
                 div.style.boxShadow = `0 0 10px ${m.color}`;
                 div.innerHTML = `<span style="color:${m.color}; font-weight:bold;">${m.name}</span>`;
-            } else {
-                div.innerText = "EMPTY";
-            }
+            } else { div.innerText = "EMPTY"; }
             display.appendChild(div);
         }
     }
     function clearLoadout() {
-        activeLoadout.forEach(key => {
-            playerCoins += MUTATIONS[key].cost;
-        });
+        activeLoadout.forEach(key => { playerCoins += MUTATIONS[key].cost; });
         activeLoadout = [];
         localStorage.setItem('pf_coins', playerCoins);
         localStorage.setItem('pf_loadout', JSON.stringify(activeLoadout));
@@ -1106,220 +1223,54 @@
         updateLoadoutDisplay();
     }
 
-    // --- DRAWING ---
-    function drawCreatureBody(unit, color, isNeon) {
-        ctx.save();
-        ctx.translate(unit.x, unit.y);
-        ctx.rotate(unit.angle);
-        
-        ctx.fillStyle = color;
-        
-        // Legs
-        if (!unit.downed) {
-            const legCount = unit.stage === 1 ? 2 : (unit.stage === 2 ? 4 : 6);
-            ctx.strokeStyle = isNeon ? color : '#333';
-            ctx.lineWidth = 2;
-            const time = Date.now() / 100;
-            
-            for (let i = 0; i < legCount; i++) {
-                const legOffset = (i % 2 === 0 ? 1 : -1) * (Math.sin(time + unit.animOffset) * 5);
-                const yPos = (i - legCount/2) * 6;
-                
-                ctx.beginPath();
-                ctx.moveTo(0, yPos);
-                ctx.lineTo(unit.size, yPos + legOffset * 2);
-                ctx.stroke();
-                
-                ctx.beginPath();
-                ctx.moveTo(0, yPos);
-                ctx.lineTo(unit.size, yPos - legOffset * 2);
-                ctx.stroke();
-            }
-        }
-
-        // Body
-        if (unit.stage === 1) { // Larva
-            ctx.beginPath(); ctx.ellipse(0, 0, unit.size, unit.size/2, 0, 0, Math.PI*2); ctx.fill();
-        } else if (unit.stage === 2) { // Ant
-            ctx.beginPath(); ctx.arc(-unit.size/2, 0, unit.size/2, 0, Math.PI*2); ctx.fill(); // Abdomen
-            ctx.beginPath(); ctx.arc(0, 0, unit.size/3, 0, Math.PI*2); ctx.fill(); // Thorax
-            ctx.beginPath(); ctx.arc(unit.size/2, 0, unit.size/2.5, 0, Math.PI*2); ctx.fill(); // Head
-        } else { // Soldier / Beetle
-            ctx.beginPath();
-            ctx.moveTo(unit.size, 0);
-            ctx.lineTo(-unit.size/2, unit.size/1.5);
-            ctx.lineTo(-unit.size/2, -unit.size/1.5);
-            ctx.fill();
-            // Armor plate
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.beginPath(); ctx.arc(-5, 0, unit.size/2, 0, Math.PI*2); ctx.fill();
-        }
-
-        // Eyes
-        if (!unit.downed) {
-            ctx.fillStyle = isNeon ? '#fff' : (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
-            ctx.beginPath(); ctx.arc(unit.size/2, -3, 2, 0, Math.PI*2); ctx.fill();
-            ctx.beginPath(); ctx.arc(unit.size/2, 3, 2, 0, Math.PI*2); ctx.fill();
-            
-            // Mandibles
-            ctx.strokeStyle = isNeon ? color : '#aaa';
-            ctx.beginPath(); ctx.moveTo(unit.size/1.5, -5); ctx.lineTo(unit.size+5, -2); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(unit.size/1.5, 5); ctx.lineTo(unit.size+5, 2); ctx.stroke();
-        }
-
-        ctx.restore();
-    }
-
-    function updateHUD() {
-        if(GAME_STATE !== 'PLAYING') return;
-        
-        document.getElementById('bio-val').innerText = Math.floor(STATE.biomass);
-        document.getElementById('coin-val').innerText = STATE.sessionCoins;
-        document.getElementById('squad-val').innerText = `${STATE.squad.length}/${MAX_SQUAD}`;
-        
-        const player = STATE.squad[STATE.playerIndex];
-        if (player) {
-            const forms = ['Larva', 'Worker', 'Soldier', 'Praetorian', 'QUEEN'];
-            const stageName = forms[player.stage - 1] || 'Unknown';
-            document.getElementById('form-val').innerText = stageName;
-            
-            const cost = player.stage * 100;
-            const evo = document.getElementById('evo-ready');
-            if (STATE.biomass >= cost && player.stage < 5) {
-                evo.style.display = 'block';
-                evo.innerText = `⚠ EVOLUTION READY [SPACE] (-${cost} Bio)`;
-            } else {
-                evo.style.display = 'none';
-            }
-
-            const activeMut = player.mutations.filter(m => m !== 'NONE');
-            if(activeMut.length > 0) {
-                const mData = MUTATIONS[activeMut[0]];
-                document.getElementById('mutation-val').innerText = mData.name;
-                document.getElementById('mutation-val').style.color = mData.color;
-                document.getElementById('mutation-desc').innerText = activeMut.length > 1 ? `${activeMut.length} Active Traits` : mData.desc;
-            } else {
-                document.getElementById('mutation-val').innerText = "Stable";
-                document.getElementById('mutation-val').style.color = "#fff";
-                document.getElementById('mutation-desc').innerText = "No mutations";
-            }
-        }
-
-        const prompt = document.getElementById('recruit-prompt');
-        const nearDowned = STATE.enemies.find(e => e.downed && Math.hypot(e.x - player.x, e.y - player.y) < 60);
-        if (nearDowned && STATE.squad.length < MAX_SQUAD) {
-            prompt.style.display = 'block';
-            prompt.style.top = (nearDowned.y - 50) + 'px';
-            prompt.style.left = nearDowned.x + 'px';
-        } else {
-            prompt.style.display = 'none';
-        }
-    }
-
     // --- INPUT ---
     const input = { keys: {}, mouse: {x:0, y:0}, mouseDown: false };
-    
     window.addEventListener('keydown', e => {
         input.keys[e.key] = true;
-        
         if (GAME_STATE === 'PLAYING') {
             const player = STATE.squad[STATE.playerIndex];
-
-            // [SPACE] EVOLVE
             if (e.key === ' ' && player) {
                 const cost = player.stage * 100;
                 if (STATE.biomass >= cost && player.stage < 5) {
-                    STATE.biomass -= cost;
-                    player.stage++;
-                    player.maxHp += 100;
-                    player.hp += 100;
-                    player.size += 8;
+                    STATE.biomass -= cost; player.stage++; player.maxHp += 100; player.hp += 100; player.size += 8;
                     spawnParticles(player.x, player.y, '#d500f9', 5, 20);
                 }
             }
-            
-            // [Q] SWITCH UNIT
-            if (e.key === 'q') {
-                STATE.playerIndex = (STATE.playerIndex + 1) % STATE.squad.length;
-            }
-
-            // [E] SELECT STRONGEST (Your Requested Feature)
+            if (e.key === 'q') STATE.playerIndex = (STATE.playerIndex + 1) % STATE.squad.length;
             if (e.key === 'e') {
-                let bestIdx = -1;
-                let bestScore = -1;
-                STATE.squad.forEach((s, i) => {
-                    // Score based on Stage * 1000 + HP
-                    const score = (s.stage * 10000) + s.hp;
-                    if(score > bestScore) {
-                        bestScore = score;
-                        bestIdx = i;
-                    }
-                });
-                if(bestIdx !== -1) {
-                    STATE.playerIndex = bestIdx;
-                    // Visual feedback
-                    const p = STATE.squad[bestIdx];
-                    spawnParticles(p.x, p.y, '#ffffff', 5, 10);
-                }
+                let bestIdx = -1; let bestScore = -1;
+                STATE.squad.forEach((s, i) => { const score = (s.stage * 10000) + s.hp; if(score > bestScore) { bestScore = score; bestIdx = i; } });
+                if(bestIdx !== -1) { STATE.playerIndex = bestIdx; spawnParticles(STATE.squad[bestIdx].x, STATE.squad[bestIdx].y, '#ffffff', 5, 10); }
             }
-
-            // [X] DISMISS WEAKEST (Your Requested Feature)
             if (e.key === 'x') {
-                // Find candidates that are NOT the player
                 const candidates = STATE.squad.filter((s, i) => i !== STATE.playerIndex);
-                
                 if(candidates.length > 0) {
-                    // Sort by Stage (asc), then HP (asc) to find weakest
-                    candidates.sort((a, b) => {
-                        if (a.stage !== b.stage) return a.stage - b.stage;
-                        return a.hp - b.hp;
-                    });
-                    
-                    const weakling = candidates[0];
-                    const idx = STATE.squad.indexOf(weakling);
-                    
+                    candidates.sort((a, b) => { if (a.stage !== b.stage) return a.stage - b.stage; return a.hp - b.hp; });
+                    const weakling = candidates[0]; const idx = STATE.squad.indexOf(weakling);
                     if (idx > -1) {
                         STATE.squad.splice(idx, 1);
-                        // Refund biomass
-                        const refund = weakling.stage * 40;
-                        STATE.biomass += refund;
+                        const refund = weakling.stage * 40; STATE.biomass += refund;
                         STATE.texts.push(new FloatingText(weakling.x, weakling.y, `+${refund} BIO`, '#4caf50'));
-                        
-                        spawnParticles(weakling.x, weakling.y, '#e53935', 3, 10); // Red particles for dismissal
-                        
-                        // Fix index if it shifted
+                        spawnParticles(weakling.x, weakling.y, '#e53935', 3, 10);
                         if (STATE.playerIndex >= STATE.squad.length) STATE.playerIndex = Math.max(0, STATE.squad.length - 1);
                     }
                 }
             }
-            
-            // [R] RECRUIT
             if (e.key === 'r') {
                 const nearDowned = STATE.enemies.find(en => en.downed && Math.hypot(en.x - player.x, en.y - player.y) < 60);
                 if (nearDowned && STATE.squad.length < MAX_SQUAD) {
-                    nearDowned.downed = false;
-                    nearDowned.team = 'player';
-                    nearDowned.hp = nearDowned.maxHp * 0.5;
-                    
-                    // Remove from enemies, add to squad
-                    const idx = STATE.enemies.indexOf(nearDowned);
-                    if(idx > -1) STATE.enemies.splice(idx, 1);
+                    nearDowned.downed = false; nearDowned.team = 'player'; nearDowned.hp = nearDowned.maxHp * 0.5;
+                    const idx = STATE.enemies.indexOf(nearDowned); if(idx > -1) STATE.enemies.splice(idx, 1);
                     STATE.squad.push(nearDowned);
-                    
                     spawnParticles(nearDowned.x, nearDowned.y, '#00e676', 4, 15);
                 }
             }
-
-            // [F] CONSUME
             if (e.key === 'f') {
                 const nearDowned = STATE.enemies.find(en => en.downed && Math.hypot(en.x - player.x, en.y - player.y) < 60);
                 if (nearDowned) {
-                    const bio = nearDowned.stage * 50;
-                    STATE.biomass += bio;
+                    const bio = nearDowned.stage * 50; STATE.biomass += bio;
                     STATE.texts.push(new FloatingText(nearDowned.x, nearDowned.y, `+${bio} BIO`, '#4caf50'));
-                    
-                    const idx = STATE.enemies.indexOf(nearDowned);
-                    if(idx > -1) STATE.enemies.splice(idx, 1);
+                    const idx = STATE.enemies.indexOf(nearDowned); if(idx > -1) STATE.enemies.splice(idx, 1);
                     spawnParticles(nearDowned.x, nearDowned.y, '#e53935', 4, 15);
                 }
             }
@@ -1332,7 +1283,6 @@
     window.addEventListener('mouseup', () => input.mouseDown = false);
 
     initGame();
-
 </script>
 </body>
 </html>
