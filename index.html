@@ -981,4 +981,358 @@
             list.appendChild(div);
         }
     }
-    function buyUpgrade
+    function buyUpgrade(key) {
+        const up = UPGRADE_DATA[key];
+        const currentLvl = playerUpgrades[key] || 0;
+        if(currentLvl >= up.max) return;
+
+        const cost = up.cost[currentLvl];
+        if(playerCoins >= cost) {
+            playerCoins -= cost;
+            playerUpgrades[key] = currentLvl + 1;
+            localStorage.setItem('pf_coins', playerCoins);
+            localStorage.setItem('pf_upgrades', JSON.stringify(playerUpgrades));
+            renderUpgrades();
+        }
+    }
+
+    // --- LAB LOGIC ---
+    function toggleStartStage() {
+        if(playerUpgrades.startEvo > 0) {
+            const max = playerUpgrades.startEvo + 1;
+            preferStartStage++;
+            if(preferStartStage > max) preferStartStage = 1;
+            localStorage.setItem('pf_prefStage', preferStartStage);
+            
+            const btn = document.getElementById('evo-btn');
+            const name = preferStartStage === 1 ? 'LARVA' : (preferStartStage === 2 ? 'WORKER' : 'SOLDIER');
+            btn.innerText = `STARTING FORM: ${name}`;
+        }
+    }
+
+    function openLab() {
+        document.getElementById('menu-screen').style.display = 'none';
+        document.getElementById('lab-screen').style.display = 'flex';
+        
+        const btn = document.getElementById('evo-btn');
+        if(playerUpgrades.startEvo === 0) {
+            btn.style.opacity = '0.5'; btn.innerText = "LOCKED (Requires 'Genetic Memory')";
+            btn.onclick = null;
+        } else {
+            const name = preferStartStage === 1 ? 'LARVA' : (preferStartStage === 2 ? 'WORKER' : 'SOLDIER');
+            btn.innerText = `STARTING FORM: ${name}`;
+            btn.onclick = toggleStartStage;
+        }
+        
+        renderLab();
+        updateLoadoutDisplay();
+    }
+    function closeLab() {
+        document.getElementById('lab-screen').style.display = 'none';
+        document.getElementById('menu-screen').style.display = 'flex';
+        document.getElementById('menu-coins').innerText = playerCoins;
+    }
+    function renderLab() {
+        document.getElementById('lab-coins').innerText = playerCoins;
+        const grid = document.getElementById('lab-grid');
+        grid.innerHTML = '';
+        
+        for (let key in MUTATIONS) {
+            if (key === 'NONE') continue;
+            const m = MUTATIONS[key];
+            const div = document.createElement('div');
+            const inLoadout = activeLoadout.includes(key);
+            
+            div.className = `item-card ${inLoadout ? 'selected' : ''}`;
+            div.innerHTML = `
+                <h3 style="color:${m.color}">${m.name}</h3>
+                <div style="font-size:11px; color:#aaa; margin-bottom:5px;">${m.desc}</div>
+                <div style="font-size:12px; color:#fff;">${m.cost} C</div>
+            `;
+            div.onclick = () => toggleLoadout(key, m.cost);
+            grid.appendChild(div);
+        }
+    }
+    function toggleLoadout(key, cost) {
+        const idx = activeLoadout.indexOf(key);
+        const maxSlots = 3 + playerUpgrades.startCount;
+        
+        if (idx > -1) {
+            // Remove
+            activeLoadout.splice(idx, 1);
+            playerCoins += cost; 
+        } else {
+            // Add
+            if (activeLoadout.length >= maxSlots) return; 
+            if (playerCoins >= cost) {
+                playerCoins -= cost;
+                activeLoadout.push(key);
+            }
+        }
+        localStorage.setItem('pf_coins', playerCoins);
+        localStorage.setItem('pf_loadout', JSON.stringify(activeLoadout));
+        renderLab();
+        updateLoadoutDisplay();
+    }
+    function updateLoadoutDisplay() {
+        const display = document.getElementById('loadout-display');
+        display.innerHTML = '';
+        const maxSlots = 3 + playerUpgrades.startCount;
+        
+        for(let i=0; i<maxSlots; i++) {
+            const mKey = activeLoadout[i];
+            const div = document.createElement('div');
+            div.className = `canister ${mKey ? 'filled' : ''}`;
+            
+            if(mKey) {
+                const m = MUTATIONS[mKey];
+                div.style.borderColor = m.color;
+                div.style.boxShadow = `0 0 10px ${m.color}`;
+                div.innerHTML = `<span style="color:${m.color}; font-weight:bold;">${m.name}</span>`;
+            } else {
+                div.innerText = "EMPTY";
+            }
+            display.appendChild(div);
+        }
+    }
+    function clearLoadout() {
+        activeLoadout.forEach(key => {
+            playerCoins += MUTATIONS[key].cost;
+        });
+        activeLoadout = [];
+        localStorage.setItem('pf_coins', playerCoins);
+        localStorage.setItem('pf_loadout', JSON.stringify(activeLoadout));
+        renderLab();
+        updateLoadoutDisplay();
+    }
+
+    // --- DRAWING ---
+    function drawCreatureBody(unit, color, isNeon) {
+        ctx.save();
+        ctx.translate(unit.x, unit.y);
+        ctx.rotate(unit.angle);
+        
+        ctx.fillStyle = color;
+        
+        // Legs
+        if (!unit.downed) {
+            const legCount = unit.stage === 1 ? 2 : (unit.stage === 2 ? 4 : 6);
+            ctx.strokeStyle = isNeon ? color : '#333';
+            ctx.lineWidth = 2;
+            const time = Date.now() / 100;
+            
+            for (let i = 0; i < legCount; i++) {
+                const legOffset = (i % 2 === 0 ? 1 : -1) * (Math.sin(time + unit.animOffset) * 5);
+                const yPos = (i - legCount/2) * 6;
+                
+                ctx.beginPath();
+                ctx.moveTo(0, yPos);
+                ctx.lineTo(unit.size, yPos + legOffset * 2);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(0, yPos);
+                ctx.lineTo(unit.size, yPos - legOffset * 2);
+                ctx.stroke();
+            }
+        }
+
+        // Body
+        if (unit.stage === 1) { // Larva
+            ctx.beginPath(); ctx.ellipse(0, 0, unit.size, unit.size/2, 0, 0, Math.PI*2); ctx.fill();
+        } else if (unit.stage === 2) { // Ant
+            ctx.beginPath(); ctx.arc(-unit.size/2, 0, unit.size/2, 0, Math.PI*2); ctx.fill(); // Abdomen
+            ctx.beginPath(); ctx.arc(0, 0, unit.size/3, 0, Math.PI*2); ctx.fill(); // Thorax
+            ctx.beginPath(); ctx.arc(unit.size/2, 0, unit.size/2.5, 0, Math.PI*2); ctx.fill(); // Head
+        } else { // Soldier / Beetle
+            ctx.beginPath();
+            ctx.moveTo(unit.size, 0);
+            ctx.lineTo(-unit.size/2, unit.size/1.5);
+            ctx.lineTo(-unit.size/2, -unit.size/1.5);
+            ctx.fill();
+            // Armor plate
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath(); ctx.arc(-5, 0, unit.size/2, 0, Math.PI*2); ctx.fill();
+        }
+
+        // Eyes
+        if (!unit.downed) {
+            ctx.fillStyle = isNeon ? '#fff' : (unit.team === 'enemy' ? '#ff0' : '#00e5ff');
+            ctx.beginPath(); ctx.arc(unit.size/2, -3, 2, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(unit.size/2, 3, 2, 0, Math.PI*2); ctx.fill();
+            
+            // Mandibles
+            ctx.strokeStyle = isNeon ? color : '#aaa';
+            ctx.beginPath(); ctx.moveTo(unit.size/1.5, -5); ctx.lineTo(unit.size+5, -2); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(unit.size/1.5, 5); ctx.lineTo(unit.size+5, 2); ctx.stroke();
+        }
+
+        ctx.restore();
+    }
+
+    function updateHUD() {
+        if(GAME_STATE !== 'PLAYING') return;
+        
+        document.getElementById('bio-val').innerText = Math.floor(STATE.biomass);
+        document.getElementById('coin-val').innerText = STATE.sessionCoins;
+        document.getElementById('squad-val').innerText = `${STATE.squad.length}/${MAX_SQUAD}`;
+        
+        const player = STATE.squad[STATE.playerIndex];
+        if (player) {
+            const forms = ['Larva', 'Worker', 'Soldier', 'Praetorian', 'QUEEN'];
+            const stageName = forms[player.stage - 1] || 'Unknown';
+            document.getElementById('form-val').innerText = stageName;
+            
+            const cost = player.stage * 100;
+            const evo = document.getElementById('evo-ready');
+            if (STATE.biomass >= cost && player.stage < 5) {
+                evo.style.display = 'block';
+                evo.innerText = `⚠ EVOLUTION READY [SPACE] (-${cost} Bio)`;
+            } else {
+                evo.style.display = 'none';
+            }
+
+            const activeMut = player.mutations.filter(m => m !== 'NONE');
+            if(activeMut.length > 0) {
+                const mData = MUTATIONS[activeMut[0]];
+                document.getElementById('mutation-val').innerText = mData.name;
+                document.getElementById('mutation-val').style.color = mData.color;
+                document.getElementById('mutation-desc').innerText = activeMut.length > 1 ? `${activeMut.length} Active Traits` : mData.desc;
+            } else {
+                document.getElementById('mutation-val').innerText = "Stable";
+                document.getElementById('mutation-val').style.color = "#fff";
+                document.getElementById('mutation-desc').innerText = "No mutations";
+            }
+        }
+
+        const prompt = document.getElementById('recruit-prompt');
+        const nearDowned = STATE.enemies.find(e => e.downed && Math.hypot(e.x - player.x, e.y - player.y) < 60);
+        if (nearDowned && STATE.squad.length < MAX_SQUAD) {
+            prompt.style.display = 'block';
+            prompt.style.top = (nearDowned.y - 50) + 'px';
+            prompt.style.left = nearDowned.x + 'px';
+        } else {
+            prompt.style.display = 'none';
+        }
+    }
+
+    // --- INPUT ---
+    const input = { keys: {}, mouse: {x:0, y:0}, mouseDown: false };
+    
+    window.addEventListener('keydown', e => {
+        input.keys[e.key] = true;
+        
+        if (GAME_STATE === 'PLAYING') {
+            const player = STATE.squad[STATE.playerIndex];
+
+            // [SPACE] EVOLVE
+            if (e.key === ' ' && player) {
+                const cost = player.stage * 100;
+                if (STATE.biomass >= cost && player.stage < 5) {
+                    STATE.biomass -= cost;
+                    player.stage++;
+                    player.maxHp += 100;
+                    player.hp += 100;
+                    player.size += 8;
+                    spawnParticles(player.x, player.y, '#d500f9', 5, 20);
+                }
+            }
+            
+            // [Q] SWITCH UNIT
+            if (e.key === 'q') {
+                STATE.playerIndex = (STATE.playerIndex + 1) % STATE.squad.length;
+            }
+
+            // [E] SELECT STRONGEST (Your Requested Feature)
+            if (e.key === 'e') {
+                let bestIdx = -1;
+                let bestScore = -1;
+                STATE.squad.forEach((s, i) => {
+                    // Score based on Stage * 1000 + HP
+                    const score = (s.stage * 10000) + s.hp;
+                    if(score > bestScore) {
+                        bestScore = score;
+                        bestIdx = i;
+                    }
+                });
+                if(bestIdx !== -1) {
+                    STATE.playerIndex = bestIdx;
+                    // Visual feedback
+                    const p = STATE.squad[bestIdx];
+                    spawnParticles(p.x, p.y, '#ffffff', 5, 10);
+                }
+            }
+
+            // [X] DISMISS WEAKEST (Your Requested Feature)
+            if (e.key === 'x') {
+                // Find candidates that are NOT the player
+                const candidates = STATE.squad.filter((s, i) => i !== STATE.playerIndex);
+                
+                if(candidates.length > 0) {
+                    // Sort by Stage (asc), then HP (asc) to find weakest
+                    candidates.sort((a, b) => {
+                        if (a.stage !== b.stage) return a.stage - b.stage;
+                        return a.hp - b.hp;
+                    });
+                    
+                    const weakling = candidates[0];
+                    const idx = STATE.squad.indexOf(weakling);
+                    
+                    if (idx > -1) {
+                        STATE.squad.splice(idx, 1);
+                        // Refund biomass
+                        const refund = weakling.stage * 40;
+                        STATE.biomass += refund;
+                        STATE.texts.push(new FloatingText(weakling.x, weakling.y, `+${refund} BIO`, '#4caf50'));
+                        
+                        spawnParticles(weakling.x, weakling.y, '#e53935', 3, 10); // Red particles for dismissal
+                        
+                        // Fix index if it shifted
+                        if (STATE.playerIndex >= STATE.squad.length) STATE.playerIndex = Math.max(0, STATE.squad.length - 1);
+                    }
+                }
+            }
+            
+            // [R] RECRUIT
+            if (e.key === 'r') {
+                const nearDowned = STATE.enemies.find(en => en.downed && Math.hypot(en.x - player.x, en.y - player.y) < 60);
+                if (nearDowned && STATE.squad.length < MAX_SQUAD) {
+                    nearDowned.downed = false;
+                    nearDowned.team = 'player';
+                    nearDowned.hp = nearDowned.maxHp * 0.5;
+                    
+                    // Remove from enemies, add to squad
+                    const idx = STATE.enemies.indexOf(nearDowned);
+                    if(idx > -1) STATE.enemies.splice(idx, 1);
+                    STATE.squad.push(nearDowned);
+                    
+                    spawnParticles(nearDowned.x, nearDowned.y, '#00e676', 4, 15);
+                }
+            }
+
+            // [F] CONSUME
+            if (e.key === 'f') {
+                const nearDowned = STATE.enemies.find(en => en.downed && Math.hypot(en.x - player.x, en.y - player.y) < 60);
+                if (nearDowned) {
+                    const bio = nearDowned.stage * 50;
+                    STATE.biomass += bio;
+                    STATE.texts.push(new FloatingText(nearDowned.x, nearDowned.y, `+${bio} BIO`, '#4caf50'));
+                    
+                    const idx = STATE.enemies.indexOf(nearDowned);
+                    if(idx > -1) STATE.enemies.splice(idx, 1);
+                    spawnParticles(nearDowned.x, nearDowned.y, '#e53935', 4, 15);
+                }
+            }
+        }
+    });
+
+    window.addEventListener('keyup', e => input.keys[e.key] = false);
+    window.addEventListener('mousemove', e => { input.mouse.x = e.clientX; input.mouse.y = e.clientY; });
+    window.addEventListener('mousedown', () => input.mouseDown = true);
+    window.addEventListener('mouseup', () => input.mouseDown = false);
+
+    initGame();
+
+</script>
+</body>
+</html>
